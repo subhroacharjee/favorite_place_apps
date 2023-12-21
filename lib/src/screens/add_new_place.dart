@@ -1,3 +1,4 @@
+import 'package:favorite_place_apps/src/components/image_input.dart';
 import 'package:favorite_place_apps/src/models/favorite_place.dart';
 import 'package:favorite_place_apps/src/providers/place_provider.dart';
 import 'package:flutter/material.dart';
@@ -39,67 +40,77 @@ class AddPlaceScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text("Add Favorite Place"),
       ),
-      body: Form(
-        key: gKey,
-        child: Column(
-          children: [
-            _TextFormField(
-              value: "Name",
-              validate: (val) => val == null || val.isEmpty || val.trim().isEmpty,
-              onSave: (value) => _name = value!.capitalizeFirstLetter(),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            _TDropDownButtonForm(
-              selectedCategory: _category,
-              onChanged: (cat) {
-                _category = cat;
-              },
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            _TextFormField(value: "City", validate: (value) => false, onSave: (val) => _city = val),
-            const SizedBox(
-              height: 15,
-            ),
-            _TextFormField(
-                value: "State", validate: (value) => false, onSave: (val) => _state = val),
-            const SizedBox(
-              height: 15,
-            ),
-            _TextFormField(
-                value: "Country", validate: (value) => false, onSave: (val) => _country = val),
-            const SizedBox(
-              height: 15,
-            ),
-            _TextFormField(
-                value: "Zip Code", validate: (value) => false, onSave: (val) => _zip = val),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    gKey.currentState!.reset();
-                  },
-                  child: const Text("Reset"),
-                ),
-                const SizedBox(
-                  width: 30,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _save(context, ref);
-                  },
-                  child: const Text("Add"),
-                )
-              ],
-            )
-          ],
+      body: SingleChildScrollView(
+        child: Form(
+          key: gKey,
+          child: Column(
+            children: [
+              _TextFormField(
+                value: "Name",
+                validate: (val) => val == null || val.isEmpty || val.trim().isEmpty,
+                onSave: (value) => _name = value!.capitalizeFirstLetter(),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              _TDropDownButtonForm(
+                selectedCategory: _category,
+                onChanged: (cat) {
+                  _category = cat;
+                },
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              ImageInput(),
+              const SizedBox(
+                height: 30,
+              ),
+              _TextFormField(
+                  value: "City", validate: (value) => false, onSave: (val) => _city = val),
+              const SizedBox(
+                height: 15,
+              ),
+              _TextFormField(
+                  value: "State", validate: (value) => false, onSave: (val) => _state = val),
+              const SizedBox(
+                height: 15,
+              ),
+              _TextFormField(
+                  value: "Country", validate: (value) => false, onSave: (val) => _country = val),
+              const SizedBox(
+                height: 15,
+              ),
+              _TextFormField(
+                  value: "Zip Code", validate: (value) => false, onSave: (val) => _zip = val),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      gKey.currentState!.reset();
+                    },
+                    child: const Text("Reset"),
+                  ),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _save(context, ref);
+                    },
+                    child: const Text("Add"),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -164,7 +175,6 @@ class _TDropDownButtonFormState extends State<_TDropDownButtonForm> {
         for (final category in PlaceCategory.values)
           DropdownMenuItem(
             value: category,
-            onTap: () {},
             child: Row(children: [
               Text(
                 category.name.capitalizeFirstLetter(),
