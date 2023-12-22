@@ -1,3 +1,5 @@
+import 'dart:io';
+
 enum PlaceCategory { home, work, travel, relax, view, sports, activity, other }
 
 class Address {
@@ -25,9 +27,11 @@ class FavoritePlace {
     required this.name,
     required this.category,
     this.address,
+    required this.image,
   });
   final String id;
   final String name;
   final PlaceCategory category;
+  final File image;
   Address? address;
 }

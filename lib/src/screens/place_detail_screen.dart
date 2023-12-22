@@ -9,11 +9,14 @@ class PlaceDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(place.name.capitalizeFirstLetter())),
-      body: Center(
-        child: Text(
-          place.address.toString(),
+      body: Stack(children: [
+        Image.file(
+          place.image,
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,
         ),
-      ),
+      ]),
     );
   }
 }

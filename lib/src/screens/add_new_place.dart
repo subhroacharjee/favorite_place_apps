@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:favorite_place_apps/src/components/image_input.dart';
 import 'package:favorite_place_apps/src/models/favorite_place.dart';
 import 'package:favorite_place_apps/src/providers/place_provider.dart';
@@ -15,14 +17,24 @@ class AddPlaceScreen extends ConsumerWidget {
   late String? _state;
   late String? _country;
   late String? _zip;
+  File? _selectedImage;
 
   void _save(BuildContext context, WidgetRef ref) {
     if (!gKey.currentState!.validate()) return;
     gKey.currentState!.save();
+    if (_selectedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("image is required"),
+        ),
+      );
+      return;
+    }
     final newPlace = FavoritePlace(
       id: UuidV4().toString(),
       name: _name,
       category: _category,
+      image: _selectedImage!,
       address: Address(
         city: _city,
         state: _state,
@@ -62,7 +74,11 @@ class AddPlaceScreen extends ConsumerWidget {
               const SizedBox(
                 height: 30,
               ),
-              ImageInput(),
+              ImageInput(
+                setImage: (file) {
+                  _selectedImage = file;
+                },
+              ),
               const SizedBox(
                 height: 30,
               ),

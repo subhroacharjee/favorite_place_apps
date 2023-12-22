@@ -86,6 +86,10 @@ class _PlaceListScreen extends ConsumerState<PlaceListScreen> {
                   ),
                 );
               },
+              leading: CircleAvatar(
+                radius: 26,
+                backgroundImage: FileImage(places[idx].image),
+              ),
               title: Text(places[idx].name),
               subtitle: Text(places[idx].category.name.capitalizeFirstLetter()),
             ),
