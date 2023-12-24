@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:favorite_place_apps/src/components/image_input.dart';
+import 'package:favorite_place_apps/src/components/location_input.dart';
 import 'package:favorite_place_apps/src/models/favorite_place.dart';
 import 'package:favorite_place_apps/src/providers/place_provider.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,8 @@ class AddPlaceScreen extends ConsumerWidget {
   final gKey = GlobalKey<FormState>();
   late String _name;
   PlaceCategory _category = PlaceCategory.home;
-  late String? _city;
-  late String? _state;
-  late String? _country;
-  late String? _zip;
   File? _selectedImage;
+  PlaceLocation? _selctedLocation;
 
   void _save(BuildContext context, WidgetRef ref) {
     if (!gKey.currentState!.validate()) return;
@@ -30,17 +28,20 @@ class AddPlaceScreen extends ConsumerWidget {
       );
       return;
     }
+    if (_selctedLocation == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("location is required"),
+        ),
+      );
+      return;
+    }
     final newPlace = FavoritePlace(
-      id: UuidV4().toString(),
+      id: const UuidV4().toString(),
       name: _name,
       category: _category,
       image: _selectedImage!,
-      address: Address(
-        city: _city,
-        state: _state,
-        country: _country,
-        zipcode: _zip,
-      ),
+      location: _selctedLocation!,
     );
     ref.read(favoritePlaceProvider.notifier).addFavoritePlace(newPlace);
     Navigator.of(context).pop();
@@ -82,25 +83,11 @@ class AddPlaceScreen extends ConsumerWidget {
               const SizedBox(
                 height: 30,
               ),
-              _TextFormField(
-                  value: "City", validate: (value) => false, onSave: (val) => _city = val),
+              LocationInput(setLocation: (place) {
+                _selctedLocation = place;
+              }),
               const SizedBox(
-                height: 15,
-              ),
-              _TextFormField(
-                  value: "State", validate: (value) => false, onSave: (val) => _state = val),
-              const SizedBox(
-                height: 15,
-              ),
-              _TextFormField(
-                  value: "Country", validate: (value) => false, onSave: (val) => _country = val),
-              const SizedBox(
-                height: 15,
-              ),
-              _TextFormField(
-                  value: "Zip Code", validate: (value) => false, onSave: (val) => _zip = val),
-              const SizedBox(
-                height: 15,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -119,7 +106,10 @@ class AddPlaceScreen extends ConsumerWidget {
                       _save(context, ref);
                     },
                     child: const Text("Add"),
-                  )
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
                 ],
               ),
               const SizedBox(

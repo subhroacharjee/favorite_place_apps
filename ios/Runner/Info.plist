@@ -51,5 +51,7 @@
     <string>Need to access camera in order to get image.</string>
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>Add photo liabrary description</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Use location to track your favorite place</string>
   </dict>
 </plist>

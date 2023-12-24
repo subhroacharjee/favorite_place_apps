@@ -2,23 +2,16 @@ import 'dart:io';
 
 enum PlaceCategory { home, work, travel, relax, view, sports, activity, other }
 
-class Address {
-  const Address({
-    required this.city,
-    required this.state,
-    required this.country,
-    required this.zipcode,
+class PlaceLocation {
+  const PlaceLocation({
+    required this.latitude,
+    required this.longitude,
+    required this.address,
   });
-  final String? city;
-  final String? state;
-  final String? country;
-  final String? zipcode;
 
-  @override
-  String toString() {
-    var content = "${city} ${state} ${country} ${zipcode}";
-    return content;
-  }
+  final double latitude;
+  final double longitude;
+  final String address;
 }
 
 class FavoritePlace {
@@ -26,12 +19,13 @@ class FavoritePlace {
     required this.id,
     required this.name,
     required this.category,
-    this.address,
     required this.image,
+    required this.location,
   });
   final String id;
   final String name;
   final PlaceCategory category;
   final File image;
-  Address? address;
+
+  final PlaceLocation location;
 }
